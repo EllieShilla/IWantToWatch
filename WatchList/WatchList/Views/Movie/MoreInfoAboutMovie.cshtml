@@ -1,0 +1,143 @@
+﻿@using WatchList.Models.TMDBParse
+
+@{
+	TMDB_Model item = ViewData["Data"] as TMDB_Model;
+	List<Movie> movieFromDb = ViewData["ListMovieFromDB"] as List<Movie>;
+	TMDB_Images tMDB_Images = ViewData["ImagesAndVideo"] as TMDB_Images;
+	List<Images_TMDB> images_TMDBs = new List<Images_TMDB>();
+	images_TMDBs.AddRange(tMDB_Images.backdrops);
+}
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="~/css/moreInfo.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/topPage.css" asp-append-version="true" />
+</head>
+
+<main>
+	@{
+		<p class="title" style="text-align:left;">@item.Title &nbsp<span style="font-size:20px;font-weight:500;">@item.Tagline</span></p>
+
+		<div class="genre-container">
+			@{
+				foreach (GenreTMDB genre in @item.GenreTMDB)
+				{
+					<p class="genre">@genre.GenresName</p>
+				}
+			}
+			<p style=" margin-left: auto;font-size:25px;"><span style="color:yellow; font-size:30px;">&#9733</span> @item.Vote</p>
+		</div>
+
+
+		<div class="head-container">
+			<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@item.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+			@{
+				string buff = "";
+				if (@tMDB_Images.results.Length > 1)
+				{
+					buff = "https://www.youtube.com/embed/" + @tMDB_Images.results.FirstOrDefault(video => video.type.Equals("Trailer")).videoLink;
+				}
+				if (@buff != null)
+				{
+					<div class="iframe-container img_shadow">
+						<iframe width="560" height="315" src="@buff" title="YouTube video player" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+					</div>
+				}
+
+			}
+		</div>
+
+
+		@if (@tMDB_Images.backdrops.Length > 1)
+		{
+			<div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+				<div class="carousel-inner img_shadow">
+					@{
+						buff = "https://image.tmdb.org/t/p/original" + @tMDB_Images.backdrops[1].imageLink;
+						<div class="carousel-item active">
+							<img src="@buff" class="d-block w-100" alt="...">
+						</div>
+
+						for (int i = 0; i < @tMDB_Images.backdrops.Length; i++)
+						{
+							buff = "https://image.tmdb.org/t/p/original" + @tMDB_Images.backdrops[i].imageLink;
+							<div class="carousel-item">
+								<img src="@buff" class="d-block w-100" alt="...">
+							</div>
+						}
+					}
+				</div>
+				<button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+					<span class="carousel-control-prev-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Previous</span>
+				</button>
+				<button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+					<span class="carousel-control-next-icon" aria-hidden="true"></span>
+					<span class="visually-hidden">Next</span>
+				</button>
+			</div>
+		}
+
+
+		<div class="inform-container">
+			<p class="overview"> @item.Overview</p>
+			@{
+				if (movieFromDb.FirstOrDefault(i => i.idTMDB == @item.Id) == null)
+				{
+					@using (Html.BeginForm("AddMovieToList", "Movie", FormMethod.Post))
+					{
+						<table>
+							<tr>
+								<td><input type="hidden" name="id" value="@item.Id" /></td>
+							</tr>
+
+							<tr>
+								<td><input type="submit" value="To List" class="allToList_button" /></td>
+								<td></td>
+							</tr>
+						</table>
+					}
+
+				}
+			}
+		</div>
+
+
+		<p class="similar_p">Similar movie</p>
+		<div class="similar-container">
+			@{
+				int similarCount = 0;
+				foreach (var similar in ViewData["SimilarMovie"] as WatchList.Models.TMDBParse.TMDB_Model[])
+				{
+					<div class="col-sm tmdb_product">
+						<a href="@Url.Action("MoreInfoAboutMovie", "Movie", new {@similar.Id})" class="img__link">
+							<div class="inform_about_film_fon">
+								<p class="title">@similar.Title</p>
+								@{
+									<br /> <p class="tmdb_inform">Genre:</p>
+
+									foreach (string genre in @similar.GenresInText)
+									{
+										<p class="tmdb_inform">@genre</p>
+									}
+								}
+								<br /> <p class="tmdb_inform">Vote: @similar.Vote</p>
+
+							</div>
+							<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@similar.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+						</a>
+					</div>
+					similarCount++;
+					if (similarCount == 4)
+						break;
+				}
+			}
+		</div>
+	}
+
+
+</main>
+
+

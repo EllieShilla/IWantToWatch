@@ -1,0 +1,43 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+
+@model RegisterViewModel
+@{
+	string message = ViewData["LogOrPass"] as string;
+}
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<link rel="stylesheet" href="~/css/account.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/LogIn.css" asp-append-version="true" />
+</head>
+
+<main>
+	<div style="margin-bottom:59.7%;">
+		<form method="post" asp-controller="Account" asp-action="LogIn" class="logIn_form logIn_form_size">
+			<div asp-validation-summary="ModelOnly"></div>
+
+			<div class="form__group">
+				<input asp-for="Login" class="input_style" type="text" placeholder="Login" />
+				<label asp-for="Login" class="label_logIn">Login</label>
+				<span asp-validation-for="Login" class="span_validator"></span>
+			</div>
+			<div class="form__group">
+				<input asp-for="Password" type="password" placeholder="●●●●●●●●●" class="input_style" />
+				<label asp-for="Password" class="label_logIn">Password</label>
+				<span asp-validation-for="Password" class="span_validator"></span>
+			</div>
+
+			<div>
+				<input type="submit" value="LogIn" class="LogIn_button" />
+			</div>
+
+			@if (message != null && message.Length > 1)
+			{
+				<br />
+				<p class="logIn_error">@message</p>
+			}
+		</form>
+	</div>
+</main>

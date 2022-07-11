@@ -1,0 +1,81 @@
+﻿@{
+	ViewData["Title"] = "Top Movie";
+}
+
+<link rel="stylesheet" href="~/css/topPage.css" asp-append-version="true" />
+
+
+<main>
+	<div class="row">
+
+		@{
+			foreach (var item in ViewData["Data"] as WatchList.Models.TMDBParse.TMDB_Model[])
+			{
+				<div class="col-sm tmdb_product">
+					<a href="@Url.Action("MoreInfoAboutMovie", "Movie", new {@item.Id})" class="img__link">
+						<div class="inform_about_film_fon">
+							<p class="title">@item.Title</p>
+							@{
+								<br /> <p class="tmdb_inform">Genre:</p>
+
+								foreach (string genre in @item.GenresInText)
+								{
+									<p class="tmdb_inform">@genre</p>
+								}
+							}
+							<br /> <p class="tmdb_inform">Vote: @item.Vote</p>
+
+						</div>
+						<img class="imgFilm" src="https://image.tmdb.org/t/p/w500/@item.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'"/>
+					</a>
+				</div>
+			}
+		}
+	</div>
+
+
+	@{
+		var pages = ViewData["NumPage"] as WatchList.Models.Pages;
+
+
+		<nav aria-label="Page navigation example">
+			<ul class="pagination justify-content-center">
+
+				@if ((@pages.CurrentPage - 1) >= 1)
+				{
+					<li class="page-item">
+						<a asp-controller="Movie" asp-action="TopMovie" asp-route-NumPage="@(@pages.CurrentPage-1)" class="page-link page_num">Previous</a>
+					</li>
+				}
+				else
+				{
+					<li class="page-item">
+						<a asp-controller="Movie" asp-action="TopMovie" asp-route-NumPage="@(@pages.CurrentPage-1)" class="page-link isDisabled">Previous</a>
+					</li>
+				}
+				@for (int i = 0; i < @pages.Lenth; i++)
+				{
+					if ((@pages.CurrentPage + @i) < @pages.MaxPageMovie)
+					{
+						<li class="page-item"><a asp-controller="Movie" asp-action="TopMovie" asp-route-NumPage="@(@pages.CurrentPage+@i)" class="page-link page_num">@(@pages.CurrentPage+@i)</a></li>
+					}
+				}
+				@if ((@pages.CurrentPage + 1) < @pages.MaxPageMovie)
+				{
+					<li class="page-item">
+						<a asp-controller="Movie" asp-action="TopMovie" asp-route-NumPage="@(@pages.CurrentPage+1)" class="page-link page_num">Next</a>
+					</li>
+				}
+				else
+				{
+					<li class="page-item">
+						<a asp-controller="Movie" asp-action="TopMovie" asp-route-NumPage="@(@pages.CurrentPage+1)" class="page-link isDisabled">Next</a>
+					</li>
+				}
+			</ul>
+		</nav>
+	}
+
+</main>
+<script src="~/js/site.js" asp-append-version="true"></script>
+

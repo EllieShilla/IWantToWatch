@@ -1,0 +1,91 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>@ViewData["Title"] - WatchList</title>
+	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/WatchList.styles.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/_navbar.css" asp-append-version="true" />
+</head>
+
+<style>
+footer{
+	text-align:center;
+	padding:20px;
+}
+</style>
+
+@using Microsoft.AspNetCore.Http;
+
+@inject IHttpContextAccessor HttpContextAccessor
+
+<body>
+	<header>
+		<a href="@Url.Action("Index", "Home")" class="logo_" style="color:white;">I want this to Watch</a>
+		<nav>
+			<ul class="nav__links">
+				<li>
+					<a href="@Url.Action("TopMovie", "Movie")" class="nav__link">Movie</a>
+
+				</li>
+				<li>
+					<a href="@Url.Action("TopTV", "TV")" class="nav__link">Serial</a>
+				</li>
+				<li>
+					<a href="@Url.Action("Registration", "Account")" class="nav__link">Join</a>
+				</li>
+				@if (@HttpContextAccessor.HttpContext.Session.GetString("userId") == null)
+				{
+					<li>
+						<a href="@Url.Action("LogIn", "Account")" class="nav__link">Log in</a>
+					</li>
+				}
+				else
+				{
+					<li>
+						<a href="@Url.Action("LogOut", "Account")" class="nav__link">Log Out</a>
+					</li>
+				}
+
+				@if (@HttpContextAccessor.HttpContext.Session.GetString("userId") != null)
+				{
+					<li class="nav__item">
+						<a href="@Url.Action("ListPage", "Account")" class="nav__link">My List</a>
+					</li>
+
+				}
+			</ul>
+		</nav>
+		<form method="post" asp-controller="Search" asp-action="Search" method="get" class="search_class">
+			<input type="text" name="query" />
+			<button type="submit" style="background-color: rgba(28,28,28,0)"><img src="/lib/images/search.png" style="width:2vw;"/></button>
+		</form>
+	</header>
+	<div class="container">
+		<main role="main" class="pb-3">
+			@RenderBody()
+		</main>
+	</div>
+
+	<footer class="page-footer" @*class="border-top footer text-muted" *@style="background-color:#050f26;">
+		<div class="container">
+			<p  style="text-align: center; color:white;">&copy; 2022 - WatchList </p>
+		</div>
+	</footer>
+
+
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/js/site.js" asp-append-version="true"></script>
+	@await RenderSectionAsync("Scripts", required: false)
+</body>
+
+</html>
+
+
+
+
+
+

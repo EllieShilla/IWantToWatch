@@ -1,0 +1,278 @@
+﻿@using WatchList.Models.TMDBParse
+
+<!DOCTYPE html>
+<head>
+	<link rel="stylesheet" href="~/css/list_page.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/stars.css" asp-append-version="true" />
+	<link rel="stylesheet" href="~/css/topPage.css" asp-append-version="true" />
+	<script src="~/js/modalStars.js"></script>
+
+</head>
+
+<main>
+
+
+	<div class="row">
+		<p  class="texr_watch">I want to see the Movies</p>
+		@{
+			List<Movie> movieFromDb = ViewData["ListMovieFromDB"] as List<Movie>;
+
+			foreach (var item in ViewData["ListMovie"] as List<TMDB_Model>)
+
+			{
+				if (movieFromDb.FirstOrDefault(i => i.idTMDB == item.Id && i.isWatched == false) != null)
+				{
+									<div class="col-sm tmdb_product">
+										<a href="@Url.Action("MoreInfoAboutMovie", "Movie", new {@item.Id})" class="img__link">
+											<div class="inform_about_film_fon">
+												<p class="title">@item.Title</p>
+												@{
+																	<br /> <p class="tmdb_inform">Genre:</p>
+
+									foreach (GenreTMDB genre in @item.GenreTMDB)
+									{
+																		<p class="tmdb_inform">@genre.GenresName</p>
+									}
+												}
+												<br /><p class="tmdb_inform">Vote: @item.Vote</p>
+
+											</div>
+											<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@item.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+										</a>
+
+										@using (Html.BeginForm("ToWatched", "Movie", FormMethod.Post))
+						{
+											<table class="watche_table">
+												<tr>
+													<td><input type="hidden" name="id" value="@item.Id" /></td>
+												</tr>
+
+												<tr>
+													<td><input type="submit" value="I Watched" class="allToList_button img_shadow" /></td>
+													<td></td>
+												</tr>
+											</table>
+						}
+
+
+									</div>
+				}
+			}
+		}
+	</div>
+
+		<p  class="texr_watch">Movies Watched</p>
+
+	<div class="row">
+
+		@{
+			foreach (var item in ViewData["ListMovie"] as List<TMDB_Model>)
+			{
+				if (movieFromDb.FirstOrDefault(i => i.idTMDB == item.Id && i.isWatched == true) != null)
+				{
+									<div class="col-sm tmdb_product">
+										<a href="@Url.Action("MoreInfoAboutMovie", "Movie", new {@item.Id})" class="img__link">
+											<div class="inform_about_film_fon">
+												<p class="title">@item.Title</p>
+												@{
+																	<br />
+
+																	<p class="tmdb_inform">Genre:</p>
+
+									foreach (GenreTMDB genre in @item.GenreTMDB)
+									{
+																		<p class="tmdb_inform">@genre.GenresName</p>
+									}
+												}
+												<br /><p class="tmdb_inform">Vote: @item.Vote</p>
+
+											</div>
+											<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@item.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+										</a>
+
+										<div style="margin-top:10px;">
+											<button class="viewbtnMovie allToList_button img_shadow" style="margin-left:40px;" value="@item.Id">Rate</button>
+
+											<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+												<div class="modal-dialog" role="document">
+												</div>
+											</div>
+										</div>
+									</div>
+				}
+			}
+		}
+
+	</div>
+
+
+
+
+
+
+
+
+	<div class="container">
+	<p class="texr_watch">I want to see the Series</h1>
+		@{
+			List<Series> tvFromDb = ViewData["ListTVFromDB"] as List<Series>;
+
+			foreach (var item in ViewData["ListTV"] as List<TMDB_Model>)
+			{
+				Series series = tvFromDb.FirstOrDefault(i => i.idTMDB == item.Id);
+				if (tvFromDb.FirstOrDefault(i => i.idTMDB == item.Id && i.isWatched == false) != null)
+				{
+									<div class="row">
+										@{
+
+															<div class="col-sm tmdb_product">
+
+																<p class="text_season">Season @series.currentSeason of @item.NumberOfSeasons</p>
+																<a href="@Url.Action("MoreInfoAboutTV", "TV", new {@item.Id})" class="img__link" style="float:left; margin-right:15px;">
+																	<div class="inform_about_film_fon">
+																	<p class="title">@item.Name</p>
+																		@{
+																							<br /> <p class="tmdb_inform">Genre:</p>
+
+											foreach (GenreTMDB genre in @item.GenreTMDB)
+											{
+																								<p class="tmdb_inform">@genre.GenresName</p>
+											}
+																		}
+																		<br />	<p class="tmdb_inform">Vote: @item.Vote</p>
+
+																	</div>
+																	<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@item.Seasons[@series.currentSeason-1].PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+																</a>
+
+
+
+
+																<ul class="pagination flex-wrap">
+																	@for (int z = 0; z < @item.Seasons[@series.currentSeason - 1].EpisodeCount; z++)
+									{
+										if ((@z + 1) == @series.lastWatchedSeries)
+										{
+																			<li class="page-item"><a class="page-link page_num page_num_choose" href="@Url.Action("ToWatched", "TV", new {id=@item.Id, episodeNum=@z+1, seasonNum=@item.Seasons[@series.currentSeason-1].SeasonNumber})">@(@z+1)</a></li>
+										}
+										else
+										{
+																			<li class="page-item"><a  href="@Url.Action("ToWatched", "TV", new {id=@item.Id, episodeNum=@z+1, seasonNum=@item.Seasons[@series.currentSeason-1].SeasonNumber})" class="page-link page_num">@(@z+1)</a></li>
+										}
+									}
+																</ul>
+															</div>
+
+										}
+									</div>
+
+				}
+			}
+		}
+
+
+
+
+
+
+
+
+
+		<p  class="texr_watch">Series Watched</p>
+
+		@{
+			foreach (var item in ViewData["ListTV"] as List<TMDB_Model>)
+			{
+				if (tvFromDb.FirstOrDefault(i => i.idTMDB == item.Id && i.isWatched == true) != null)
+				{
+									<div class="col-sm tmdb_product">
+
+										<a href="@Url.Action("MoreInfoAboutTV", "TV", new {@item.Id})" class="img__link">
+											<div class="inform_about_film_fon">
+												<p class="title">@item.Name</p>
+												@{
+																	<br /> <p class="tmdb_inform">Genre:</p>
+
+									foreach (GenreTMDB genre in @item.GenreTMDB)
+									{
+																		<p class="tmdb_inform">@genre.GenresName</p>
+									}
+												}
+												<br /> <p class="tmdb_inform">Vote: @item.Vote</p>
+
+											</div>
+											<img class="imgFilm img_shadow" src="https://image.tmdb.org/t/p/w500/@item.PosterPath" onerror="this.onerror=null; this.src='/lib/images/standBy.jpg'" />
+										</a>
+
+										<div style="margin-top:10px;">
+
+											<button class="viewbtnTv allToList_button img_shadow" value="@item.Id" style="margin-left:40px;">Rate</button>
+
+											<div id="showmodal" class="modal fade" tabindex="-1" role="dialog">
+												<div class="modal-dialog" role="document">
+												</div>
+											</div>
+										</div>
+									</div>
+				}
+			}
+		}
+
+
+	</div>
+	<div style="margin-bottom:100px"></div>
+
+</main>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+@section scripts{
+	<script>
+		$(".viewbtnMovie").on("click", function() {
+			var $this = $(this);
+
+			var id = $this.val();
+			$.ajax({
+				url: '@Url.Action("Stars", "Movie")',
+				data: { movieId: id },
+				success: function(data) {
+					$("#showmodal .modal-dialog").html(data);
+					$("#showmodal").modal("show");
+				}
+			});
+		});
+
+
+		$(".viewbtnTv").on("click", function() {
+			var $this = $(this);
+
+			var id = $this.val();
+			$.ajax({
+				url: '@Url.Action("Stars", "TV")',
+				data: { tvId: id },
+				success: function(data) {
+					$("#showmodal .modal-dialog").html(data);
+					$("#showmodal").modal("show");
+				}
+			});
+		});
+	</script>
+			}
+
+
+
+	@*						@for (int y = 1; y <= @item.Seasons[@series.currentSeason - 1].EpisodeCount; y++)
+								{
+									if (@y == series.lastWatchedSeries)
+									{
+										<a href="@Url.Action("ToWatched", "TV", new {id=@item.Id, episodeNum=@y, seasonNum=@item.Seasons[@series.currentSeason-1].SeasonNumber})" class="img__link last_episode">@y</a>
+									}
+									else
+									{
+										<a href="@Url.Action("ToWatched", "TV", new {id=@item.Id, episodeNum=@y, seasonNum=@item.Seasons[@series.currentSeason-1].SeasonNumber})" class="img__link">@y</a>
+									}
+								}*@
+

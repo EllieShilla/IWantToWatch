@@ -1,0 +1,19 @@
+﻿.text_style {
+    font-size: 4vw;
+    padding-bottom: 20vh;
+    font-weight: 800;
+    text-shadow: 1px 1px 4px black;
+}
+
+.title_style {
+    font-size: 2vw;
+    padding-bottom: 10vh;
+    font-weight: 600;
+    text-shadow: 1px 1px 4px black;
+}
+
+
+main {
+    padding-bottom: 10px;
+    min-height: calc(100vh-211px-58px);
+}

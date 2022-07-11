@@ -1,0 +1,40 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&family=Oswald:wght@300&display=swap');
+
+
+main {
+    padding-bottom: 10px;
+    min-height: calc(100vh-211px-58px);
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    color: white;
+}
+
+.allToList_button {
+    margin-top: 0px;
+    width: 200px;
+    height: 50px;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 2px 0px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-left: 15px;
+}
+
+.img_shadow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.texr_watch {
+    text-align: right;
+    font-size: 50px;
+    font-weight: 700;
+    margin: 20px 0;
+    text-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.text_season{
+    font-size:30px;
+}

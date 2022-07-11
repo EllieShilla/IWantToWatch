@@ -1,0 +1,93 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&family=Oswald:wght@300&display=swap');
+
+
+main {
+    padding-bottom: 10px;
+    min-height: calc(100vh-211px-58px);
+    font-family: 'Oswald', sans-serif;
+    text-decoration: none;
+    color: white;
+}
+
+.iframe-container {
+    position: relative;
+    width: 100%;
+    padding-bottom: 35%;
+    height: 0%;
+    margin-top:2%;
+}
+
+.iframe-container iframe{
+    position:absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}
+
+.head-container{
+    display:flex;
+    margin-bottom:2%;
+}
+
+.head-container img{
+    width:400px;
+    height:500px;
+    margin-right:10px;
+}
+
+.genre-container {
+    display: flex;
+}
+
+    .genre-container:last-child {
+        margin-left: auto;
+    }
+
+.title{
+    font-size:60px;
+    font-weight:700;
+    text-align:left;
+}
+
+.genre{
+    font-size:20px;
+    margin-right:1%;
+}
+
+.img_shadow {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 14px 28px, rgba(0, 0, 0, 0.22) 0px 10px 10px;
+}
+
+.overview{
+    margin-top:1%;
+    font-size:30px;
+}
+
+.allToList_button {
+    margin-top: 0px;
+    width: 15vw;
+    height:5vh;
+    background-color: #ffffff;
+    color: #080710;
+    padding: 2px 0px;
+    font-size: 18px;
+    font-weight: 600;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.inform-container{
+    display:flex;
+}
+
+.similar-container{
+    display:flex;
+    flex-wrap:wrap;
+}
+
+.similar_p {
+    font-size: 40px;
+    font-weight:600;
+    margin:1% 0;
+}
