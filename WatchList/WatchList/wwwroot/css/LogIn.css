@@ -17,20 +17,22 @@ main {
     border: 2px solid rgba(255,255,255,0.1);
     box-shadow: 0 0 40px rgba(8,7,16,0.6);
     padding: 50px 35px;
+    margin-top:6vw;
 }
 
     .logIn_form:first-child {
         padding: 50px 35px;
     }
 
-    .registration_form_size {
-        height: 700px;
-        width: 400px;
-    }
+.registration_form_size {
+    height: 97vh;
+    width: 25vw;
+    min-width:25vw;
+}
 
 .logIn_form_size {
-    height: 520px;
-    width: 400px;
+    height: 65vh;
+    width: 25vw;
 }
 
     .logIn_form * {

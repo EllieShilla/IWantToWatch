@@ -1,0 +1,72 @@
+﻿@import url('https://fonts.googleapis.com/css2?family=Gentium+Book+Plus&family=Oswald:wght@300&display=swap');
+
+body {
+    background-color: #333b4f;
+    height: 90vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px 10%;
+    background-color: #050f26;
+}
+
+.nav__links {
+    list-style: none;
+    padding-top: 10px;
+}
+
+    .nav__links li {
+        display: inline-block;
+        padding: 0px 20px;
+    }
+
+        .nav__links li a {
+            transition: all 0.3s ease 0s;
+            font-family: 'Oswald', sans-serif;
+            text-decoration: none;
+            color: white;
+            font-size: 1.5vw;
+            font-weight: 600;
+            transition: all .3s;
+        }
+
+    .nav__links:hover > li a {
+        font-size: 1vw;
+    }
+
+        .nav__links:hover > li a:hover {
+            font-size: 1.7vw;
+        }
+
+form {
+    padding: 9px 25px;
+}
+
+    form button {
+        font-family: 'Oswald', sans-serif;
+    }
+
+.search_class input {
+    border-radius: 30px;
+    width: 10vw;
+    background-color: lightgray;
+    transition: all .5s;
+    padding-left:15px;
+}
+
+    .search_class input:focus {
+        background-color: white;
+        width: 14vw;
+    }
+
+
+.logo_ {
+    font-family: 'Oswald', sans-serif;
+    color: white;
+    font-size: 1.7vw;
+    font-weight: 600;
+    text-decoration: none;
+}

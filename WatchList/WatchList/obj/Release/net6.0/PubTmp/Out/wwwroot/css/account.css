@@ -1,0 +1,49 @@
+﻿.form__group {
+    margin-bottom: 35px;
+    position: relative;
+    display: block;
+}
+
+.input_style {
+    border: 0;
+    border-bottom: 1px solid #ccc;
+    height: 40px;
+    padding: 0 5px;
+    outline: 0;
+    font-size: 20px;
+}
+
+    .input_style:not(:placeholder-shown) + .label_logIn {
+        margin-top: -65px;
+        font-size: 15px;
+    }
+
+.label_logIn {
+    position: absolute;
+    top: 50%;
+    left: 2%;
+    transform: translateY(-50%);
+    transition: all .2s ease;
+    pointer-events: none;
+    margin-top:-20px;
+}
+.input_style:invalid {
+    border: 2px solid red;
+}
+.input_style::placeholder {
+    opacity: 0;
+}
+
+.input_style:focus + .label_logIn {
+    margin-top: -65px;
+    font-size: 15px;
+}
+
+span::before {
+    content: "\A";
+    white-space: pre;
+}
+
+.logIn_error {
+    font-size: 20px;
+}
